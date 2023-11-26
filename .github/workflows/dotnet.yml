@@ -35,6 +35,9 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+      - name: Check Out Repo
+        uses: actions/checkout@v2
+        
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -42,6 +45,7 @@ jobs:
 
       - name: Deploy to Azure Web Apps
         run: |
+          ls
           az webapp create -g teamhitori-quick-cache-prod --plan teamhitori-quick-cache-prod-plan -n teamhitori-quick-cache-prod-webapp --multicontainer-config-type compose --multicontainer-config-file docker-compose.yml
 
       - name: Logout from Azure
