@@ -7,10 +7,13 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: "",
+    options.AddPolicy(name: "CorsPolicy",
         policy =>
         {
-            policy.AllowAnyOrigin(); 
+            policy.AllowAnyMethod()
+                .AllowCredentials()
+                .SetIsOriginAllowed((host) => true)
+                .AllowAnyHeader(); 
         });
 });
 

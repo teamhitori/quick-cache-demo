@@ -16,8 +16,19 @@ export class AppComponent {
 
   constructor(private apiService: ApiService) {}
 
-  callApi() {
-    this.apiService.getApiResponse().subscribe(
+  startRedisTest() {
+    this.apiService.startRedisTest().subscribe(
+      (response) => {
+        this.apiResponse = response;
+      },
+      (error) => {
+        console.error('Error fetching data: ', error);
+      }
+    );
+  }
+
+  getMetrics() {
+    this.apiService.getMetrics().subscribe(
       (response) => {
         this.apiResponse = response;
       },
