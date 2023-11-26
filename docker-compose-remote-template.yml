@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   quick-cache-web:
-    image: teamhitori/quickcacheweb:<version>
+    image: teamhitori/quickcacheweb:0.0.0.<version>
     build:
       context: .
       dockerfile: quick-cache-web/Dockerfile
