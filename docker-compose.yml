@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  quick-cache-web:
+    image: teamhitori/quickcacheweb
+    build:
+      context: .
+      dockerfile: quick-cache-web/Dockerfile
+  redis_image:
+    image: redis
+    container_name: cache
+    ports:
+      - "6379:6379"

@@ -1,0 +1,50 @@
+<div class="container-fluid d-flex flex-column min-vh-100">
+  <header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+      <div class="container-fluid">
+        🚀 Quick Cache
+      </div>
+    </nav>
+  </header>
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-2 sidebar border-right">
+          <mat-list>
+            <mat-list-item>
+              <a mat-button>
+                <mat-icon>play_circle_filled</mat-icon>
+                <span class="ml-2">Run Tests</span>
+              </a>
+            </mat-list-item>
+          </mat-list>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-10 content">
+          <div class="row">
+            <h2>Execute Redis Cache Load Test</h2>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <button mat-raised-button (click)="callApi()">Execute</button>
+            </div>
+            <div class="col-9">
+              <ngx-gauge 
+                        [value]="gaugeValue" 
+                        [label]="gaugeLabel"  
+                        [append]="gaugeAppendText">
+              </ngx-gauge>
+            </div>
+          </div>
+          
+          <textarea rows="4" cols="50">{{ apiResponse | json }}</textarea>
+        </div>
+      </div>
+  </div>
+
+  <footer class="border-top footer text-muted">
+    <div class="container">
+      &copy; 2023 - Quick Cache Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+  </footer>
+</div>
