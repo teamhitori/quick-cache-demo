@@ -14,13 +14,13 @@ export class AppComponent {
   gaugeRedisType = "semi";
   gaugeRedisValue = 0;
   gaugeRedisLabel = "Average";
-  gaugeRedisAppendText = "s";
+  gaugeRedisAppendText = "ms";
 
   apiQuickResponse: any;
   gaugeQuickType = "semi";
   gaugeQuickValue = 0;
   gaugeQuickLabel = "Average";
-  gaugeQuickAppendText = "s";
+  gaugeQuickAppendText = "ms";
 
   @ViewChild('redisChartCanvas')
   redisChartCanvas!: ElementRef<HTMLCanvasElement>;
@@ -36,9 +36,9 @@ export class AppComponent {
     this.chartRedis = new Chart(this.redisChartCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: Array.from(Array(5000).keys()), // Example labels from 0 to 9
+        labels: Array.from(Array(1000).keys()), // Example labels from 0 to 9
         datasets: [{
-          label: '1KB r/w speed in seconds over time',
+          label: '1KB r/w speed in ms over time',
           backgroundColor: 'rgb(255, 99, 132)',
           borderColor: 'rgb(255, 99, 132)',
           data: [], // Example data
@@ -53,9 +53,9 @@ export class AppComponent {
     this.chartQuick = new Chart(this.quickChartCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: Array.from(Array(5000).keys()), // Example labels from 0 to 9
+        labels: Array.from(Array(1000).keys()), // Example labels from 0 to 9
         datasets: [{
-          label: '1KB r/w speed in seconds over time',
+          label: '1KB r/w speed in ms over time',
           backgroundColor: 'rgb(255, 99, 132)',
           borderColor: 'rgb(255, 99, 132)',
           data: [], // Example data
@@ -81,14 +81,14 @@ export class AppComponent {
 
   }
 
-  async startBasicTest() {
+  async startTest(testIndex: number) {
 
     if(!this._testActive){
       this._testActive = true;
       this._redisTestActive = true;
       this._quickTestActive = true;
 
-      var startJson = await this.apiService.startRedisTest();
+      var startJson = await this.apiService.startRedisTest(testIndex);
 
       while(this._redisTestActive) {
         var respoonse = await this.apiService.getRedisResults();
@@ -108,7 +108,7 @@ export class AppComponent {
         await this.sleep(500);
       }
 
-      var startJson = await this.apiService.startQuickTest();
+      var startJson = await this.apiService.startQuickTest(testIndex);
 
       while(this._quickTestActive) {
         var respoonse = await this.apiService.getQuickResults();
@@ -126,6 +126,8 @@ export class AppComponent {
         }
         await this.sleep(500);
       }
+
+      this._testActive = false;
     }
   }
 

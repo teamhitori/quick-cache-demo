@@ -17,7 +17,7 @@ namespace quick_cache_web.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private IList<byte[]> _blob;
-        private readonly IRedisTestService _redisTestService;
+        private readonly IRedisTestService _testService;
         private readonly IDistributedCache _redisCache;
         private static readonly Histogram _redisDurationHist = Metrics
             .CreateHistogram("test_redis_duration_hist", "Histogram of redis call call durations.");
@@ -34,7 +34,7 @@ namespace quick_cache_web.Controllers
             _redisCache = cache ?? throw new ArgumentNullException(nameof(cache));
             _logger = logger;
             _blob = blob;
-            _redisTestService = redisTestService;
+            _testService = redisTestService;
         }
         // GET: api/<LoadTest>
         [HttpGet]
@@ -52,8 +52,16 @@ namespace quick_cache_web.Controllers
             switch (id)
             {
                 case 0:
-                    _redisTestService.StartTest();
-
+                    _testService.StartTest(false, 1024);
+                    break;
+                case 1:
+                    _testService.StartTest(false, 1024 * 1024);
+                    break;
+                case 2:
+                    _testService.StartTest(true, 1024);
+                    break;
+                case 3:
+                    _testService.StartTest(true, 1024 * 1024);
                     break;
             }
 
@@ -65,7 +73,7 @@ namespace quick_cache_web.Controllers
         [HttpGet("results")]
         public TestResponse GetResults()
         {
-            return _redisTestService.Results;
+            return _testService.Results;
         }
 
         // POST api/<LoadTest>

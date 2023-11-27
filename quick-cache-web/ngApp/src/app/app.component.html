@@ -11,9 +11,27 @@
       <div class="col-2 sidebar border-right">
         <mat-list>
           <mat-list-item>
-            <a (click)="startBasicTest()" mat-button>
+            <a (click)="startTest(0)" mat-button>
               <mat-icon>play_circle_filled</mat-icon>
-              <span class="ml-2">Run Basic Test</span>
+              <span class="ml-2">Run 1Kb Single</span>
+            </a>
+          </mat-list-item>
+          <mat-list-item>
+            <a (click)="startTest(1)" mat-button>
+              <mat-icon>play_circle_filled</mat-icon>
+              <span class="ml-2">Run 1Mb Single</span>
+            </a>
+          </mat-list-item>
+          <mat-list-item>
+            <a (click)="startTest(2)" mat-button>
+              <mat-icon>play_circle_filled</mat-icon>
+              <span class="ml-2">Run 1Kb Multi</span>
+            </a>
+          </mat-list-item>
+          <mat-list-item>
+            <a (click)="startTest(3)" mat-button>
+              <mat-icon>play_circle_filled</mat-icon>
+              <span class="ml-2">Run 1Mb Multi</span>
             </a>
           </mat-list-item>
         </mat-list>
@@ -27,17 +45,6 @@
           <h4>Redis Cache</h4>
         </div>
         <div class="row">
-          <!-- <div class="col-2">
-            <div class="row p-3">
-              <button mat-raised-button (click)="startRedisTest()">Start</button>
-            </div>
-            <div class="row p-3">
-              <button mat-raised-button (click)="getRedisResults()">Results</button>
-            </div>
-            <div class="row p-3">
-              <button mat-raised-button (click)="getRedisMetrics()">Metrics</button>
-            </div>
-          </div> -->
           <div class="col-2">
             <ngx-gauge [max]="10" [value]="gaugeRedisValue" [label]="gaugeRedisLabel" [append]="gaugeRedisAppendText">
 
@@ -48,7 +55,7 @@
             
           </div>
           <div class="col-2">
-            <textarea style="visibility: visible;" rows="4" cols="50">{{ apiRedisResponse | json }}</textarea>
+            <textarea style="visibility: hidden;" rows="4" cols="50">{{ apiRedisResponse | json }}</textarea>
           </div>
         </div>
 
@@ -57,17 +64,7 @@
           <h4>Quick Cache</h4>
         </div>
         <div class="row">
-          <!-- <div class="col-2">
-            <div class="row p-3">
-              <button mat-raised-button (click)="startQuickTest()">Start</button>
-            </div>
-            <div class="row p-3">
-              <button mat-raised-button (click)="getQuickResults()">Results</button>
-            </div>
-            <div class="row p-3">
-              <button mat-raised-button (click)="getQuickMetrics()">Metrics</button>
-            </div>
-          </div> -->
+
           <div class="col-2">
             <ngx-gauge [max]="10" [value]="gaugeQuickValue" [label]="gaugeQuickLabel" [append]="gaugeQuickAppendText">
 
@@ -78,7 +75,7 @@
           </div>
 
           <div class="col-2">
-            <textarea style="visibility: visible;" rows="4" cols="50">{{ apiQuickResponse | json }}</textarea>
+            <textarea style="visibility: hidden;" rows="4" cols="50">{{ apiQuickResponse | json }}</textarea>
           </div>
         </div>
 

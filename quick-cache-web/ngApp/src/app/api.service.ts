@@ -11,8 +11,8 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  public async startRedisTest(): Promise<any> {
-    const url = `${environment.apiUrl}/api/RedisTest/0`;
+  public async startRedisTest(testIndex: number): Promise<any> {
+    const url = `${environment.apiUrl}/api/RedisTest/${testIndex}`;
     const request$ = this.http.get<any>(url).pipe(take(1));
     return await lastValueFrom<any>(request$);
   }
@@ -29,8 +29,8 @@ export class ApiService {
     return await lastValueFrom<any>(request$);
   }
 
-  public async startQuickTest(): Promise<any> {
-    const url = `${environment.apiUrl}/api/QuickCacheTest/0`; // Replace with your API URL
+  public async startQuickTest(testIndex: number): Promise<any> {
+    const url = `${environment.apiUrl}/api/QuickCacheTest/${testIndex}`; // Replace with your API URL
     const request$ = this.http.get<any>(url).pipe(take(1));
     return await lastValueFrom<any>(request$);
   }

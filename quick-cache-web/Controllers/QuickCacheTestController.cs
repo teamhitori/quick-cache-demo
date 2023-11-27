@@ -46,7 +46,16 @@ namespace quick_cache_web.Controllers
             switch (id)
             {
                 case 0:
-                    _testService.StartTest();
+                    _testService.StartTest(false, 1024);
+                    break;
+                case 1:
+                    _testService.StartTest(false, 1024 * 1024);
+                    break;
+                case 2:
+                    _testService.StartTest(true, 1024);
+                    break;
+                case 3:
+                    _testService.StartTest(true, 1024 * 1024);
 
                     break;
             }

@@ -6,5 +6,5 @@ public interface IQuickCacheTestService
 {
     bool IsRunning { get; }
     TestResponse Results { get; }
-    void StartTest();
+    void StartTest(bool isParallel, int blockSize);
 }
