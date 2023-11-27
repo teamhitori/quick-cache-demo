@@ -38,7 +38,7 @@ export class AppComponent {
       data: {
         labels: Array.from(Array(1000).keys()), // Example labels from 0 to 9
         datasets: [{
-          label: '1KB r/w speed in ms over time',
+          label: 'r/w speed in ms over time',
           backgroundColor: 'rgb(255, 99, 132)',
           borderColor: 'rgb(255, 99, 132)',
           data: [], // Example data
@@ -55,7 +55,7 @@ export class AppComponent {
       data: {
         labels: Array.from(Array(1000).keys()), // Example labels from 0 to 9
         datasets: [{
-          label: '1KB r/w speed in ms over time',
+          label: 'r/w speed in ms over time',
           backgroundColor: 'rgb(255, 99, 132)',
           borderColor: 'rgb(255, 99, 132)',
           data: [], // Example data

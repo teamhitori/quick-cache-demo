@@ -107,7 +107,5 @@ public partial class QuickCacheTestService : IQuickCacheTestService
         stopWatch.Reset();
 
         this._results.Add(ts.Seconds * 1000 + ts.Milliseconds);
-
-        Thread.Sleep(10);
     }
 }
