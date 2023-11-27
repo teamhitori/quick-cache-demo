@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Caching.Distributed;
 using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,23 @@ builder.Services.AddStackExchangeRedisCache(option =>
 {
     option.Configuration = builder.Configuration.GetConnectionString("redis");
 });
+
+builder.Services.AddSingleton<ICache>(builder =>
+{
+    return QuickCache.GetInstance();
+});
+
+
+builder.Services.AddSingleton<IRedisTestService>((o) => {
+    var cache = o.GetRequiredService<IDistributedCache>();
+    return RedisTestService.Instance(cache);
+});
+
+builder.Services.AddSingleton<IQuickCacheTestService>((o) => {
+    var cache = o.GetRequiredService<ICache>();
+    return QuickCacheTestService.Instance(cache);
+});
+
 
 
 var app = builder.Build();
