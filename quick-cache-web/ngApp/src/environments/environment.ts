@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: "https://teamhitori-quick-cache-prod-webapp.azurewebsites.net",
+  apiUrl: "https://localhost:9091",
   prometheusUrl: "https://teamhitori-prometheus-prod-webapp.azurewebsites.net"
 };
 

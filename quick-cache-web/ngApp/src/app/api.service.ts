@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, take, lastValueFrom } from 'rxjs';
 import { environment } from '../environments/environment';
 
 
@@ -11,13 +11,39 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  public startRedisTest(): Observable<any> {
-    const url = `${environment.apiUrl}/api/LoadTest/0`; // Replace with your API URL
-    return this.http.get<any>(url);
+  public async startRedisTest(): Promise<any> {
+    const url = `${environment.apiUrl}/api/RedisTest/0`;
+    const request$ = this.http.get<any>(url).pipe(take(1));
+    return await lastValueFrom<any>(request$);
   }
 
-  public getMetrics(): Observable<any> {
-    const url = `${environment.prometheusUrl}/api/v1/query?query=microsoft_aspnetcore_hosting_current_requests`; // Replace with your API URL
-    return this.http.get<any>(url);
+  public async getRedisResults(): Promise<any> {
+    const url = `${environment.apiUrl}/api/RedisTest/results`; // Replace with your API URL
+    const request$ = this.http.get<any>(url).pipe(take(1));
+    return await lastValueFrom<any>(request$);
+  }
+
+  public async getRedisMetrics(): Promise<any> {
+    const url = `${environment.prometheusUrl}/api/v1/query?query=test_redis_duration_seconds_bucket`; // Replace with your API URL
+    const request$ = this.http.get<any>(url).pipe(take(1));
+    return await lastValueFrom<any>(request$);
+  }
+
+  public async startQuickTest(): Promise<any> {
+    const url = `${environment.apiUrl}/api/QuickCacheTest/0`; // Replace with your API URL
+    const request$ = this.http.get<any>(url).pipe(take(1));
+    return await lastValueFrom<any>(request$);
+  }
+
+  public async getQuickResults(): Promise<any> {
+    const url = `${environment.apiUrl}/api/QuickCacheTest/results`; // Replace with your API URL
+    const request$ = this.http.get<any>(url).pipe(take(1));
+    return await lastValueFrom<any>(request$);
+  }
+
+  public async getQuickMetrics(): Promise<any> {
+    const url = `${environment.prometheusUrl}/api/v1/query?query=test_quick_cache_duration_seconds_bucket`; // Replace with your API URL
+    const request$ = this.http.get<any>(url).pipe(take(1));
+    return await lastValueFrom<any>(request$);
   }
 }
