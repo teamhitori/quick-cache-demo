@@ -1,3 +1,18 @@
+# Quick Cache Project Documentation
+
+Live Demo >>
+https://teamhitori-quick-cache-prod-webapp.azurewebsites.net
+
+Live Metrics Monitoring >> https://teamhitori-prometheus-prod-webapp.azurewebsites.net
+
+Quick Cache Source >> https://github.com/teamhitori/quick-cache
+
+Quick Cache Unit tests >> https://github.com/teamhitori/quick-cache/actions
+
+Quick Cache Nuget >> https://www.nuget.org/packages/TeamHitori.QuickCache/1.0.1.13
+
+Live Demo Source >> https://github.com/teamhitori/quick-cache-demo
+
 # Objective
 Our application handles large volumes of data, and also needs to be fast. One strategy to
 improve the execution speed of our code is to cache regularly-used data in memory.
@@ -25,7 +40,7 @@ items get evicted. Again, if you run out of time, you can skip this feature too.
 • You may use any development tools you wish
 • You are permitted to use external libraries (e.g. nuget packages)
 
-## User Requirments
+# The Plan
 
 **Create Repo and Define Branching Strategy**: 
 Provision a new Github repo and define a branching strategy / feature toggles.
@@ -61,9 +76,6 @@ Ensure that the cache is thread-safe, especially given that it's intended to be 
 
 **Performance Optimization**: 
 Once the fundamental features are in place, focus on optimising for performance. This includes minimizing lock contention, efficient memory usage, and quick access times.
-
-**Advanced Features (Optional)**: 
-Depending on time and complexity, add additional features like cache item expiration, statistics reporting (hits, misses, load factor), and cache warming.
 
 ## System Design
 ![alt text](https://raw.githubusercontent.com/teamhitori/quick-cache-demo/main/img/system.svg)
@@ -117,3 +129,44 @@ If the key is found, QuickCache returns the success status along with the value 
 If the key is not present in LogHash, the LogPosition returned is null.
 QuickCache then returns a not-found status to the user.
 This part of the process is also handled atomically within LogHash, maintaining thread safety when checking for the presence of a key.
+
+## User deletes item from the cache
+![alt text](https://raw.githubusercontent.com/teamhitori/quick-cache-demo/main/img/quick-cache-delete.svg)
+
+- **User Initiates Delete Request**:
+The process begins with the user invoking the Delete method on QuickCache, providing a key that identifies the item to be removed.
+
+- **QuickCache Interacts with LogHash**:
+QuickCache then calls the RemoveKey method of LogHash, passing along the key. This operation is atomic, which ensures thread safety. 
+
+- **LogHash Raises an Event**:
+Upon successfully removing the key, LogHash raises an event to notify other components or systems of this change. This is done by calling RaiseEvent on EventQueue.
+
+- **QuickCache Returns Success to User**:
+After the above steps are completed, QuickCache returns a success response to the user, indicating that the deletion operation has been successfully executed.
+
+## Log Manager
+![alt text](https://raw.githubusercontent.com/teamhitori/quick-cache-demo/main/img/quick-cache-mgmt.svg)
+
+Log Event:
+LogManager receives an 'Event' from the EventQueue. This event is triggered from LogHash when an item is added, removed or retrieved from the Log.
+
+Retrieving Referenced Log Positions:
+Upon receiving an event, LogManager queries LogHash to get all referenced log positions, and queries Log for all active position, and uses an algorithm to sort out if an references in the log are orphans
+
+Removing Unreferenced Items:
+LogManager then instructs Log to remove items that are not referenced or orphaned ensuring that outdated or unused items are discarded.
+
+Checking Process Memory:
+If configured to do so, LogManager checks the process memory. This could be to ensure that the memory usage is within acceptable limits and to decide whether further items need to be removed from the log to free up memory.
+
+Removing Referenced Items if Log is Full:
+In case the log is full (or memory usage is high), LogManager may remove the least recently used (LRU) items, even if they are referenced. This step is essential for maintaining the size of the log within its configured limits.
+
+Raising Item Removed Event:
+After removing items, LogManager reports back to the EventQueue with an 'Item Removed Event'. This notification can be used for logging, auditing, or triggering other processes that need to know about these removals.
+
+## Class Diagram
+![alt text](https://raw.githubusercontent.com/teamhitori/quick-cache-demo/main/img/quick-cache-class.svg)
+
+
