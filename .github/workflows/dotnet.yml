@@ -27,7 +27,7 @@ jobs:
       
       - name: Prepare Docker Compose File
         run: |
-          $env:VERSION_TAG = "${{ steps.git-count.outputs.commit-count }}"
+          $version = Get-Date -Format "yyMMdd-HHmm"
           Get-Content .\docker-compose-remote-template.yml | ForEach-Object { $_.Replace("<version>", $env:VERSION_TAG) } | Out-File -FilePath .\docker-compose-remote.yml -Encoding UTF8
         shell: pwsh
 

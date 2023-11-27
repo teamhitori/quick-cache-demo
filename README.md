@@ -1,5 +1,5 @@
 # Objective
-Our application – handles large volumes of data, and also needs to be fast. One strategy to
+Our application handles large volumes of data, and also needs to be fast. One strategy to
 improve the execution speed of our code is to cache regularly-used data in memory.
 
 You have been asked to create a generic in-memory cache component, which other
